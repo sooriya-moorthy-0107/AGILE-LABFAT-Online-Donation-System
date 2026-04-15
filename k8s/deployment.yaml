@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: donation-system-deployment
+  labels:
+    app: donation-system
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: donation-system
+  template:
+    metadata:
+      labels:
+        app: donation-system
+    spec:
+      containers:
+      - name: donation-system
+        image: docker.io/sooriya/donation-system:latest
+        imagePullPolicy: Always
+        command: ["/bin/sh", "-c", "java -jar donation.jar && tail -f /dev/null"]
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
